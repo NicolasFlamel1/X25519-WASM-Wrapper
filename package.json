@@ -1,8 +1,8 @@
 {
 	"name": "@nicolasflamel/x25519-wasm",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "WASM wrapper around parts of SUPERCOP's X25519 implementation",
-	"main": "dist/X25519.js",
+	"main": "dist/index.js",
 	"files": [
 		"dist/*"
 	],
@@ -21,5 +21,8 @@
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/NicolasFlamel1/X25519-WASM-Wrapper/issues"
+	},
+	"optionalDependencies": {
+		"@nicolasflamel/x25519-native": "^0.0.4"
 	}
 }

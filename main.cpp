@@ -1,34 +1,69 @@
 // Header files
-#include <emscripten.h>
 #include <cstddef>
 #include <cstring>
-#include "supercop-20220213/crypto_dh/curve25519/ref/api.h"
-#include "crypto_hash_sha512.h"
-#include "crypto_scalarmult.h"
-#include "fe.h"
+#include "./supercop-20220213/crypto_dh/curve25519/ref/api.h"
+
+// Check if using Emscripten
+#ifdef __EMSCRIPTEN__
+
+	// Header files
+	#include <emscripten.h>
+	#include "./crypto_hash_sha512.h"
+	#include "./crypto_scalarmult.h"
+	#include "fe.h"
+
+// Otherwise
+#else
+
+	// Header files
+	extern "C" {
+		#include "./crypto_hash_sha512.h"
+		#include "./crypto_scalarmult.h"
+		#include "fe.h"
+	}
+#endif
 
 using namespace std;
+
+
+// Definitions
+
+// Check if using Emscripten
+#ifdef __EMSCRIPTEN__
+
+	// Export
+	#define EXPORT extern "C"
+
+// Otherwise
+#else
+
+	// Export
+	#define EXPORT
+
+	// Emscripten keepalive
+	#define EMSCRIPTEN_KEEPALIVE
+#endif
 
 
 // Function prototypes
 
 // Secret key size
-extern "C" size_t EMSCRIPTEN_KEEPALIVE secretKeySize();
+EXPORT size_t EMSCRIPTEN_KEEPALIVE secretKeySize();
 
 // Secret key from Ed25519 secret key
-extern "C" bool EMSCRIPTEN_KEEPALIVE secretKeyFromEd25519SecretKey(uint8_t *secretKey, const uint8_t *ed25519SecretKey, size_t ed25519SecretKeySize);
+EXPORT bool EMSCRIPTEN_KEEPALIVE secretKeyFromEd25519SecretKey(uint8_t *secretKey, const uint8_t *ed25519SecretKey, size_t ed25519SecretKeySize);
 
 // Public key size
-extern "C" size_t EMSCRIPTEN_KEEPALIVE publicKeySize();
+EXPORT size_t EMSCRIPTEN_KEEPALIVE publicKeySize();
 
 // Public key from Ed25519 public key
-extern "C" bool EMSCRIPTEN_KEEPALIVE publicKeyFromEd25519PublicKey(uint8_t *publicKey, const uint8_t *ed25519PublicKey, size_t ed25519PublicKeySize);
+EXPORT bool EMSCRIPTEN_KEEPALIVE publicKeyFromEd25519PublicKey(uint8_t *publicKey, const uint8_t *ed25519PublicKey, size_t ed25519PublicKeySize);
 
 // Shared secret key size
-extern "C" size_t EMSCRIPTEN_KEEPALIVE sharedSecretKeySize();
+EXPORT size_t EMSCRIPTEN_KEEPALIVE sharedSecretKeySize();
 
 // Shared secret key from secret key and public key
-extern "C" bool EMSCRIPTEN_KEEPALIVE sharedSecretKeyFromSecretKeyAndPublicKey(uint8_t *sharedSecretKey, const uint8_t *secretKey, size_t secretKeySize, const uint8_t *publicKey, size_t publicKeySize);
+EXPORT bool EMSCRIPTEN_KEEPALIVE sharedSecretKeyFromSecretKeyAndPublicKey(uint8_t *sharedSecretKey, const uint8_t *secretKey, size_t secretKeySize, const uint8_t *publicKey, size_t publicKeySize);
 
 
 // Supporting function implementation
