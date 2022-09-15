@@ -38,7 +38,7 @@ using namespace std;
 #else
 
 	// Export
-	#define EXPORT
+	#define EXPORT static
 
 	// Emscripten keepalive
 	#define EMSCRIPTEN_KEEPALIVE
